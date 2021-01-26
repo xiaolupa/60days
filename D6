@@ -1,0 +1,13 @@
+#. 將下兩列array存成npz檔
+array1 = np.array(range(30))
+array2 = np.array([2,3,5])
+
+with open("array.npz","wb") as f:
+    np.savez(f,array1, array2)
+    
+#2. 讀取剛剛的npz檔，加入下列array一起存成新的npz檔
+npzfile = np.load('array.npz')
+npzfile.files
+
+print(npzfile['arr_0'])
+print(npzfile['arr_1'])
