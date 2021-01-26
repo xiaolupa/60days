@@ -1,0 +1,50 @@
+import numpy as np
+english_score = np.array([55,89,76,65,48,70])
+math_score = np.array([60,85,60,68,np.nan,60])
+chinese_score = np.array([65,90,82,72,66,77])
+#1. 請計算各科成績平均、最大值、最小值、標準差，其中數學缺一筆資料可忽略?
+#各科平均
+print("各科平均:")
+print(np.nanmean(english_score))
+print(np.nanmean(math_score))
+print(np.nanmean(chinese_score))
+
+#最大值
+print("最大值:")
+print(np.nanmax(english_score))
+print(np.nanmax(math_score))
+print(np.nanmax(chinese_score))
+
+#最小值
+print("最小值:")
+print(np.nanmin(english_score))
+print(np.nanmin(math_score))
+print(np.nanmin(chinese_score))
+
+#標準差
+print("標準差:")
+print(np.nanstd(english_score))
+print(np.nanstd(math_score))
+print(np.nanstd(chinese_score))
+#2. 第五位同學補考數學後成績為55，請計算補考後數學成績平均、最大值、最小值、標準差?
+math_score2 = np.array([60,85,60,68,55,60])
+
+#補考後
+#平均
+print(np.mean(math_score2))
+
+#最大值
+print(np.max(math_score2))
+
+#最小值
+print(np.min(math_score2))
+
+#標準差
+print(np.std(math_score2))
+
+
+#3. 用補考後資料找出與國文成績相關係數最高的學科?
+a=[english_score,math_score2,chinese_score]
+a
+np.corrcoef(a)
+#相關最高者為英文，相關係數為0.98
