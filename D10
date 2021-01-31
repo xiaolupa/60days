@@ -1,0 +1,24 @@
+import pandas as pd
+
+#讀取STOCK_DAY_0050_202009.csv
+a=pd.read_csv("STOCK_DAY_0050_202009.csv")
+a
+
+#STOCK_DAY_0050_202010.csv
+b=pd.read_csv("STOCK_DAY_0050_202010.csv")
+b
+
+#串聯
+#Merge
+pd.merge(a,b,on='date',how='outer')
+
+#concatenate
+c=pd.concat([a,b],axis=0)
+c
+
+#找出open小於close的資料
+c.loc[c.open>c.close]
+
+#alternative
+d=c[c['open']>c['close']]
+d
