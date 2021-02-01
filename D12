@@ -5,10 +5,10 @@ import numpy as np
 df = pd.read_csv('boston.csv') 
 df
 
-df.boxplot()
+df.boxplot(figsize=(12,6))
 #由圖可知，TAX的中位數介於300-400間
 
 
 #2. 畫出散佈圖 x='NOX', y='DIS' ，並說明這兩欄位有什麼關係?
-df.plot.scatter(x="NOX", y="DIS")
+df.plot.scatter(x="NOX", y="DIS",figsize=(12,6))
 #從圖形可看出兩者呈現負相關
