@@ -1,0 +1,32 @@
+import numpy as np
+import seaborn as sns
+
+#設定圖形樣式 - whitegrid
+sns.set_style("whitegrid")
+
+# 利用 NUMPY 去建立資料集
+# np.random.RandomState 設定數學式
+rs=np.random.RandomState(75)
+x = rs.normal(2, 1, 75)
+y = 2 + 1.5 * x + rs.normal(0, 2, 75)
+
+
+# 畫圖
+sns.residplot(x,y)
+
+# bin: 指的是特徵值, 
+# kde: on/off
+# sns.distplot();
+
+import pandas as pd
+import matplotlib.pyplot as plt
+from scipy import stats
+sns.set(color_codes=True)
+x = np.random.normal(size=100)
+sns.distplot(x)
+
+sns.distplot(x, bins=20, kde=False, rug=True)
+
+sns.distplot(x, bins=10, kde=False, rug=True)
+
+sns.distplot(x, bins=20, kde=True, rug=True)
