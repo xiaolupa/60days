@@ -1,0 +1,60 @@
+# 載入相關的程式庫
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+
+### 利用 PANDAS 取得酒的品質資料 
+df_red = pd.read_csv("winequality_red.csv")
+df_white = pd.read_csv("winequality_white.csv")
+
+#資料整理
+df_red["color"] = "R"
+df_white["color"] = "W"
+
+#整合紅酒與白酒的資料
+df_all=pd.concat([df_red,df_white],axis=0)
+
+# 檢查合併後的資料集
+df_all.head()
+
+df_all.rename(columns={'fixed acidity': 'fixed_acidity','citric acid':'citric_acid',
+                       'volatile acidity':'volatile_acidity','residual sugar':'residual_sugar',
+                       'free sulfur dioxide':'free_sulfur_dioxide',
+                       'total sulfur dioxide':'total_sulfur_dioxide'}, inplace=True)
+# 檢查合併後的資料集
+df_all.head()
+
+#處理缺失值
+df = pd.get_dummies(df_all, columns=["color"])
+df_all.isnull().sum()
+
+#可以使用 info() 方法瞭解有關資料集屬性的更多資訊。特別是行和列的數量、列名稱、它們的數據類型和空值數。
+df_all.info()
+
+#要瞭解數據集的統計摘要,即記錄數、平均值、標準差、最小值和最大值,我們使用描述()。
+df_all.describe()
+
+#可視化所有數值數據。在垂直軸上計數,在水平軸上使用值範圍。hist 函數通過將所有屬性繪製在一起使操作變得簡單。
+df_all.hist(bins=10, color='lightblue',edgecolor='blue',linewidth=1.0,
+          xlabelsize=8, ylabelsize=8, grid=False)    
+
+plt.tight_layout(rect=(0, 0, 1.2, 1.2))
+
+b = sns.heatmap(df_all.corr(), annot=True, linewidths=.05, ax=ax)
+f.subplots_adjust(top=0.93)
+bottom, top = ax.get_ylim()
+ax.set_ylim(bottom + 0.5, top - 0.5)
+title= f.suptitle('Correlation Heatmap for wine attributes', fontsize=12)
+
+#Plotting Jointplot, 使用 'reg'== regression 回歸線繪製關係圖
+a = sns.jointplot("fixed_acidity","citric_acid",data = df_all,kind ='reg', color = None)
+b = sns.jointplot("alcohol", "citric_acid", data = df_all, kind = 'reg')
+c = sns.jointplot("volatile_acidity", "citric_acid", data = df_all, kind = 'reg')
+
+
+
+
+
