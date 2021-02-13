@@ -1,0 +1,17 @@
+from bokeh.plotting import figure, output_file, show
+from bokeh.models import widgets
+from bokeh.io import output_notebook
+import numpy as np
+
+
+# 讓網頁直接輸出在NOTEBOOK
+output_notebook()
+
+#Bokeh官方有提供sample_data給大家練習，gallery豐富的範例都取自sample_data。
+#下載sample_data指令為bokeh.sampledata.download()，直接貼在jupyter執行。檔案會下載到bokeh module裡。
+import bokeh.sampledata
+bokeh.sampledata.download()
+
+
+
+
