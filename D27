@@ -1,0 +1,18 @@
+# library
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+from scipy import stats
+import math
+import statistics
+
+'''
+你的答案 
+'''
+#Binomial分配
+p = 0.5 # 事件A 機率 0.4
+n = 100  # 重複實驗5次,
+r = 50 
+probs = stats.binom.pmf(r, n, p)
+probs
+0.07958923738717888
