@@ -1,0 +1,42 @@
+# library
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+from scipy import stats
+import math
+import statistics
+import seaborn as sns
+
+## 輸入資料
+boys=[164,175,183,173,176,159,165,165,169,151,156,163,169,144,170,177,165,160,164,171]
+girls=[169,170,162,154,183,173,169,167,170,185,162,175,168,151,181,170,182,156,159,160]
+
+###### Q1:試著用今天所教的內容，如何描述這兩組資料的樣態?
+#暗示:  分別計算男生和女生的統計量
+#平均值
+print('男生平均身高 =',np.mean(boys))
+print('女生平均身高 =',np.mean(girls))
+#標準差
+print(np.std(boys,ddof=1))
+print(np.std(girls,ddof=1))
+#偏態/峰值
+print(stats.skew(boys))
+print(stats.kurtosis(boys))
+print(stats.skew(girls))
+print(stats.kurtosis(girls))
+
+男生平均身高 = 165.95
+女生平均身高 = 168.3
+9.213691185575838
+9.766214587465353
+-0.4713212731737694
+0.19395882957876243
+0.059853211293650746
+-0.8203607083948947
+
+#Q2: 請問男生和女生在平均身高上誰比較高? 
+女生
+
+### Q3:請問第二題的答案和日常生活中觀察的一致嗎? 如果不一致，你覺得原因可能為何? 
+A:不一致，男生的身高比平均矮，女性身高比平均高
+A:男生的身高可能是國中生的平均身高，女生的身高可能是高中或大學籃球隊或排球隊的平均身高
