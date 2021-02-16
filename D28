@@ -1,0 +1,16 @@
+# library
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+from scipy import stats
+import math
+import statistics
+
+#超機率分配
+N=49
+K=6
+n=6
+r=1
+probs = stats.hypergeom.pmf(r, N,K,n)
+print(probs)
+
