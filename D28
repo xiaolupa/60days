@@ -10,7 +10,10 @@ import statistics
 N=49
 K=6
 n=6
-r=1
+r=6
 probs = stats.hypergeom.pmf(r, N,K,n)
 print(probs)
 
+7.151123842018523e-08
+
+#以機率的角度來看，兩者一樣高
