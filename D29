@@ -1,0 +1,34 @@
+# library
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+from scipy import stats
+import math
+import statistics
+import seaborn as sns
+
+## Q1
+#  提示: 用 cdf 來算
+#1.設定使用參數
+mu=0
+sigma=1
+cumsum_probs =  stats.norm.cdf(1,mu, sigma)
+cumsum_probs
+0.8413447460685429
+
+
+
+## Q2
+CP2 =  stats.norm.cdf(-1,mu, sigma)+(1-stats.norm.cdf(1,mu, sigma))
+CP2
+0.31731050786291415
+
+## Q3
+#  提示: 和 Q1,Q2 不同，要先標準化。
+mu=2
+sigma=2
+
+cumsum_probs =  stats.norm.cdf(6,mu, sigma)
+cumsum_probs
+0.9772498680518208
+
