@@ -1,0 +1,17 @@
+# library
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+from scipy import stats
+import math
+import statistics
+import seaborn as sns
+
+
+import statsmodels.stats.proportion
+A = [75,30] # 不良品
+B = [300,300] #各組實驗總個數
+statsmodels.stats.proportion.proportions_ztest(A, B, alternative='two-sided')
+
+(4.834937784152282, 1.3318728439003627e-06)
+兩條生產線相同的機率小於0.05，故可宣稱不同生產線良率不同
