@@ -38,5 +38,25 @@ print(df_test.isnull().any())
 # 統計 data 裡有空值的變數個數
 print(df_train.isnull().any().sum())
 
+#合併資料
+data = df_train.append(df_test)
+print(data)
+#survived在train的部分無值，Age Fare Cabin有遺失值
+print(data.info())
 
+print('Cabin =',data['Cabin'].isnull().sum())
+Cabin = 1014
 
+# 以 XXX 為例，先看 Cabin  出現值的特性
+print(data['Cabin'].value_counts())
+
+data['Cabin'].head(20)
+
+data["Cabin"] = data['Cabin'].apply(lambda x : str(x)[0] if not pd.isnull(x) else 'NA')
+data["Cabin"].unique()
+
+# 挑整後的 Cabin 觀察遺失的樣態
+sns.countplot(data['Cabin'], hue=data['Survived'])
+
+#數值計算
+data[['Cabin', 'Survived']].groupby(['Cabin'], as_index=False).mean().sort_values(by='Survived', ascending=False)
