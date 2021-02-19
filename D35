@@ -1,0 +1,42 @@
+#把需要的 library import 進來
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+from IPython.display import display
+#讓圖可以在 jupyter notebook顯示
+%matplotlib inline
+
+#顯示圖形的函數，可先不用理解，直接用
+from IPython.display import display
+from IPython.display import display_html
+def display_side_by_side(*args):
+    html_str=''
+    for df in args:
+        html_str+=df.to_html()
+    display_html(html_str.replace('table','table style="display:inline"'),raw=True)
+
+# 把兩個訓練資料集和測試資料集讀進來
+df_train = pd.read_csv("Titanic_train.csv")
+df_test = pd.read_csv("Titanic_test.csv")
+
+
+# Q1: 判斷 測試資料集和訓練資料集欄位變數是否有差異性?
+'''
+暗示，可以用那些函數，來看出資料的欄位變數
+'''
+print(df_train.info())
+print(df_test.info())
+
+#train data少了survived
+
+
+#判斷每一個資料點，是否為空值:
+print(df_test.isnull().head())
+print(df_test.isnull().any())
+# 統計 data 裡有空值的變數個數
+print(df_train.isnull().any().sum())
+
+
+
