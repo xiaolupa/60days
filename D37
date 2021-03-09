@@ -8,8 +8,51 @@ import statistics
 import seaborn as sns
 from IPython.display import display
 
-df_train = pd.read_csv('Titanic_train.csv')
-df_train
+data = pd.read_csv('Titanic_train.csv')
+data
 
+#計算每一行是否有遺失值，計算遺失比例
+missing_vals = data.isnull().sum()/len(data)
+missing_vals.sort_values(ascending=False)
+missing_vals = pd.DataFrame(missing_vals,columns=['missing_rate'])
+print(missing_vals)
+
+# 細看遺失資料的樣態
+missing_index=data.isnull()
+display(data[missing_index.values==True])
+
+
+# 連續型用分布圖行來看
+g = sns.FacetGrid(data, col='Survived')
+g.map(sns.distplot, 'Age', kde=False)
+
+g = sns.catplot(x="Pclass", y="Age", hue="Sex",
+               data=data,kind="box")
+#男生女生的身高特性有差異
+# 觀察到不同艙等的年紀不太相同
+
+from sklearn import preprocessing
+
+#下面兩行程式，讓 Male=1, FeMale-0.
+
+le = preprocessing.LabelEncoder()
+data['Pclass']=le.fit_transform(data['Pclass'])
+
+data['Sex']=le.fit_transform(data['Sex'])
+
+data_new=data[['Sex','Age','Pclass']]
+
+# KNN
+#設定用多少鄰居資訊來補值
+value_neighbors=1
+from sklearn.impute import KNNImputer
+#進行 KNN的一些設定
+imputer = KNNImputer(n_neighbors=value_neighbors)
+#把資料放進去，進行補值
+df_filled = pd.DataFrame(imputer.fit_transform(data_new))
+#只呈現有遺失值的資料
+display(data[missing_index.values==True])
+#只呈現有遺失值的資料-呈現補值的結果
+display(df_filled[missing_index.values==True])
 
 
