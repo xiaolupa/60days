@@ -1,0 +1,22 @@
+# import library
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+from scipy import stats
+import math
+import statistics
+import seaborn as sns
+from IPython.display import display
+
+import pingouin as pg
+import researchpy   
+%matplotlib inline
+
+df_train = pd.read_csv("Titanic_train.csv")
+print(df_train.info())
+
+from sklearn import preprocessing
+#下面兩行程式，讓 survived便離散
+le = preprocessing.LabelEncoder()
+df_train['Survived_cate']=le.fit_transform(df_train['Survived'])
+display(df_train)
