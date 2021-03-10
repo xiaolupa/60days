@@ -20,3 +20,159 @@ from sklearn import preprocessing
 le = preprocessing.LabelEncoder()
 df_train['Survived_cate']=le.fit_transform(df_train['Survived'])
 display(df_train)
+
+
+## 取出資料後，把遺失值刪除
+complete_data=df_train[['Age','Survived_cate']].dropna() #刪除屋白值
+display(complete_data)
+
+#一個離散一個連續，使用eta aquare
+
+aov = pg.anova(dv='Age', between='Survived_cate', data=complete_data, detailed=True)
+aov
+
+etaSq = aov.SS[0] / (aov.SS[0] + aov.SS[1])
+etaSq
+
+def j_etaSq(etaSq):
+    if etaSq < .01:
+        qual = 'Negligible'
+    elif etaSq < .06:
+        qual = 'Small'
+    elif etaSq < .14:
+        qual = 'Medium'
+    else:
+        qual = 'Large'
+    return(qual)
+j_etaSq(etaSq)
+
+g = sns.catplot(x="Survived_cate", y="Age", hue="Survived_cate",
+               data=complete_data, kind="violin")
+
+#離散對離散，採用Cramér's V
+
+contTable = pd.crosstab(df_train['Sex'], df_train['Survived_cate'])
+contTable
+
+df = min(contTable.shape[0], contTable.shape[1]) - 1
+df
+crosstab, res = researchpy.crosstab(df_train['Survived_cate'], df_train['Sex'], test='chi-square')
+#print(res)
+print("Cramer's value is",res.loc[2,'results'])
+
+# 寫一個副程式判斷相關性的強度
+def CramerV(df,V):
+    if df == 1:
+        if V < 0.10:
+            qual = 'negligible'
+        elif V < 0.30:
+            qual = 'small'
+        elif V < 0.50:
+            qual = 'medium'
+        else:
+            qual = 'large'
+    elif df == 2:
+        if V < 0.07:
+            qual = 'negligible'
+        elif V < 0.21:
+            qual = 'small'
+        elif V < 0.35:
+            qual = 'medium'
+        else:
+            qual = 'large'
+    elif df == 3:
+        if V < 0.06:
+            qual = 'negligible'
+        elif V < 0.17:
+            qual = 'small'
+        elif V < 0.29:
+            qual = 'medium'
+        else:
+            qual = 'large'
+    elif df == 4:
+        if V < 0.05:
+            qual = 'negligible'
+        elif V < 0.15:
+            qual = 'small'
+        elif V < 0.25:
+            qual = 'medium'
+        else:
+            qual = 'large'
+    else:
+        if V < 0.05:
+            qual = 'negligible'
+        elif V < 0.13:
+            qual = 'small'
+        elif V < 0.22:
+            qual = 'medium'
+        else:
+            qual = 'large'
+    return(qual)
+
+CramerV(df,res.loc[2,'results'])
+
+# 寫一個副程式判斷相關性的強度
+def CramerV(df,V):
+    if df == 1:
+        if V < 0.10:
+            qual = 'negligible'
+        elif V < 0.30:
+            qual = 'small'
+        elif V < 0.50:
+            qual = 'medium'
+        else:
+            qual = 'large'
+    elif df == 2:
+        if V < 0.07:
+            qual = 'negligible'
+        elif V < 0.21:
+            qual = 'small'
+        elif V < 0.35:
+            qual = 'medium'
+        else:
+            qual = 'large'
+    elif df == 3:
+        if V < 0.06:
+            qual = 'negligible'
+        elif V < 0.17:
+            qual = 'small'
+        elif V < 0.29:
+            qual = 'medium'
+        else:
+            qual = 'large'
+    elif df == 4:
+        if V < 0.05:
+            qual = 'negligible'
+        elif V < 0.15:
+            qual = 'small'
+        elif V < 0.25:
+            qual = 'medium'
+        else:
+            qual = 'large'
+    else:
+        if V < 0.05:
+            qual = 'negligible'
+        elif V < 0.13:
+            qual = 'small'
+        elif V < 0.22:
+            qual = 'medium'
+        else:
+            qual = 'large'
+    return(qual)
+
+CramerV(df,res.loc[2,'results'])
+
+g= sns.countplot(x="Sex", hue="Survived_cate", data=df_train)
+
+
+#連續對連續，採pearson correlation
+## 取出資料後，把遺失值刪除
+complete_data=df_train[['Age','Fare']].dropna() #刪除屋白值
+display(complete_data)
+
+corr, _=stats.pearsonr(complete_data['Age'],complete_data['Fare'])
+print(corr)
+
+g = sns.regplot(x="Age", y="Fare", color="g",data=complete_data)
+#表示年齡與費率幾乎不相關
+
