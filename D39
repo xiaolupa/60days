@@ -41,6 +41,87 @@ display(complete_data)
 complete_data['Age_above65_']=complete_data['Age'].apply((lambda x: 'Y' if x >=65 else 'N'))
 display(complete_data.head(5))
  
+ def age_map2(row): 
+    if (row.Sex=='female'):
+        return('Y')
+    else: 
+        if(row.Age>=65):
+            return('Y')
+        else:
+            return('N')
+    
+    
+complete_data['Age_above65_female']=complete_data[['Age','Sex']].apply(age_map2,axis=1)
+display(complete_data)
  
- 
- 
+ #Age_above65
+contTable = pd.crosstab(complete_data['Age_above65'], complete_data['Survived_cate'])
+contTable
+df = min(contTable.shape[0], contTable.shape[1]) - 1
+df
+crosstab, res = researchpy.crosstab(complete_data['Survived_cate'], complete_data['Age_above65'], test='chi-square')
+#print(res)
+print("Cramer's value is",res.loc[2,'results'])
+def judgment_CramerV(df,V):
+    if df == 1:
+        if V < 0.10:
+            qual = 'negligible'
+        elif V < 0.30:
+            qual = 'small'
+        elif V < 0.50:
+            qual = 'medium'
+        else:
+            qual = 'large'
+    elif df == 2:
+        if V < 0.07:
+            qual = 'negligible'
+        elif V < 0.21:
+            qual = 'small'
+        elif V < 0.35:
+            qual = 'medium'
+        else:
+            qual = 'large'
+    elif df == 3:
+        if V < 0.06:
+            qual = 'negligible'
+        elif V < 0.17:
+            qual = 'small'
+        elif V < 0.29:
+            qual = 'medium'
+        else:
+            qual = 'large'
+    elif df == 4:
+        if V < 0.05:
+            qual = 'negligible'
+        elif V < 0.15:
+            qual = 'small'
+        elif V < 0.25:
+            qual = 'medium'
+        else:
+            qual = 'large'
+    else:
+        if V < 0.05:
+            qual = 'negligible'
+        elif V < 0.13:
+            qual = 'small'
+        elif V < 0.22:
+            qual = 'medium'
+        else:
+            qual = 'large'
+    return(qual)
+
+judgment_CramerV(df,res.loc[2,'results'])
+
+
+#Age_above65_female
+contTable = pd.crosstab(complete_data['Age_above65_female'], complete_data['Survived_cate'])
+contTable
+df = min(contTable.shape[0], contTable.shape[1]) - 1
+df
+crosstab, res = researchpy.crosstab(complete_data['Survived_cate'], complete_data['Age_above65_female'], test='chi-square')
+#print(res)
+print("Cramer's value is",res.loc[2,'results'])
+
+
+judgment_CramerV(df,res.loc[2,'results'])
+
