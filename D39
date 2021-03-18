@@ -1,0 +1,46 @@
+# library
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+from scipy import stats
+import math
+import statistics
+import seaborn as sns
+from IPython.display import display
+import sklearn
+print(sklearn.__version__)
+#如果只有 0.19 記得要更新至 最新版本
+%matplotlib inline
+
+
+#顯示所有行
+pd.set_option('display.max_columns', None)
+#顯示所有列
+pd.set_option('display.max_rows', None)
+#顯示行設定
+pd.set_option('max_colwidth',100)
+
+import pingouin as pg
+import researchpy   
+ 
+df_train = pd.read_csv("Titanic_train.csv")
+print(df_train.info())
+ 
+ 
+#1.產稱一個新的變數 Survived_cate ，資料型態傳換成類別型態      
+#2.把題目中的 Survived 用 Survived_cate 來做分析    
+df_train['Survived_cate']=df_train['Survived']
+df_train['Survived_cate']=df_train['Survived_cate'].astype('object')
+print(df_train.info())
+ 
+ #我們先把遺失值刪除
+## 取出資料後，把遺失值刪除
+complete_data=df_train[['Age','Survived_cate','Sex']].dropna()
+display(complete_data)
+ 
+complete_data['Age_above65_']=complete_data['Age'].apply((lambda x: 'Y' if x >=65 else 'N'))
+display(complete_data.head(5))
+ 
+ 
+ 
+ 
