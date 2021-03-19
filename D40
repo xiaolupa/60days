@@ -63,54 +63,34 @@ display(y.head(5))
 
 #離散要轉換成數值，['Sex', 'Embarked']
 
-#離散型資料要先轉成數值
-sex_mapping = {
-           'male': 1,
-           'female': 0}
-complete_data['Sex1'] = complete_data['Sex'].map(sex_mapping)
+#Can only use .cat accessor with a 'category' dtype
+# .cat.codes ：分類的編碼，用數字表示分類數據
+x = x.copy()
+c = x.loc[:,'Sex'].astype('category')
+d = dict(enumerate(c.cat.categories))
+print (d)
+x.loc[:,'Sex']=x.loc[:,'Sex'].astype('category').cat.codes # ok
+display(x.head(5))
 
-Embarked_mapping = {
-           'C': 1,
-           'S': 0}
-complete_data['Embarked1'] = complete_data['Embarked'].map(Embarked_mapping)
-complete_data
-
-
-
-
-
+c = x.loc[:,'Embarked'].astype('category')
+d = dict(enumerate(c.cat.categories))
+print (d)
+x.loc[:,'Embarked']=x.loc[:,'Embarked'].astype('category').cat.codes # ok
+display(x.head(5))
 
 
+#執行 包裝法
+from sklearn.datasets import make_friedman1
+from sklearn.feature_selection import RFE
+from sklearn.svm import SVC
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+estimator = SVC(kernel="linear")
+selector = RFE(estimator, n_features_to_select=1, step=1)
+selector = selector.fit(x, y)
+## True= selected feature
+print(selector.support_)
+#Selected (i.e., estimated best) features are assigned rank 1.
+ranking=selector.ranking_
+print(ranking)
+rfe_feature = x.loc[:,selector.support_].columns.tolist()
+print(rfe_feature)
