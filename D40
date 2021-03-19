@@ -1,0 +1,116 @@
+# library
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+from scipy import stats
+import math
+import statistics
+import seaborn as sns
+from IPython.display import display
+import sklearn
+print(sklearn.__version__)
+#如果只有 0.19 記得要更新至 最新版本
+print(pd.__version__)
+%matplotlib inline
+
+
+
+
+# 特徵選取會用到的函數
+from sklearn.feature_selection import VarianceThreshold
+from sklearn import preprocessing
+
+from sklearn.datasets import make_friedman1
+from sklearn.feature_selection import RFE
+from sklearn.svm import SVC
+
+df_train = pd.read_csv("Titanic_train.csv")
+print(df_train.info())
+
+#1.產稱一個新的變數 Survived_cate ，資料型態傳換成類別型態      
+#2.把題目中的 Survived 用 Survived_cate 來做分析    
+df_train['Survived_cate']=df_train['Survived']
+df_train['Survived_cate']=df_train['Survived_cate'].astype('object')
+print(df_train.info())
+
+
+#我們先把遺失值刪除
+## 取出資料後，把遺失值刪除
+complete_data=df_train.dropna()
+
+#排除 Ｎame 當特徵，先刪除每一個人都是獨特的資料，先檢視其他變數
+complete_data=complete_data.drop(['Name','Ticket','PassengerId'], axis=1)
+display(complete_data.head(5))
+
+print(complete_data.shape)
+
+num_features = []
+for dtype, feature in zip(complete_data.dtypes, complete_data.columns):
+    if dtype == 'float64' or dtype == 'int64':
+        num_features.append(feature)
+print(f'{len(num_features)} Numeric Features : {num_features}\n')
+
+cat_features = []
+for dtype, feature in zip(complete_data.dtypes, complete_data.columns):
+    if dtype == 'object':
+        cat_features.append(feature)
+print(f'{len(cat_features)} category Features : {cat_features}\n')
+
+x=complete_data[['Pclass', 'Age', 'SibSp', 'Parch', 'Fare','Sex', 'Embarked']]
+y=complete_data['Survived']
+display(x.head(5))
+display(y.head(5))
+
+#離散要轉換成數值，['Sex', 'Embarked']
+
+#離散型資料要先轉成數值
+sex_mapping = {
+           'male': 1,
+           'female': 0}
+complete_data['Sex1'] = complete_data['Sex'].map(sex_mapping)
+
+Embarked_mapping = {
+           'C': 1,
+           'S': 0}
+complete_data['Embarked1'] = complete_data['Embarked'].map(Embarked_mapping)
+complete_data
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
